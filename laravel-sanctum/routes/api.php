@@ -37,7 +37,14 @@ Route::post('/sanctum/token', function (Request $request) {
         ]);
     }
 
-    return $user->createToken($request->device_name)->plainTextToken;
+    $token = $user->createToken($request->device_name)->plainTextToken;
+
+    $reponse = [
+        'user'  => $user,
+        'token' => $token,
+    ];
+
+    return response($reponse, 201);
 });
 
 Route::post('/auth/register', [AuthController::class, 'register']);
